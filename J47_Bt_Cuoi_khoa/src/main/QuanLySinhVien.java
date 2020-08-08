@@ -138,13 +138,27 @@ public class QuanLySinhVien {
 			int chon;
 			Scanner sc = new Scanner(System.in);
 			do {
-				System.out.println("\n----------------------------------------------------");
+				System.out.println("\n-----------------DANH SACH SINH VIEN-------------------");
 				System.out.format("--------------------trang %3d/%-3d------------------\n", page, totalPage);
+				if(DataIO.suportAscii == true) {
+			    	System.out.println("----------------------------------------------------------------------");
+					System.out.println("|   Ma    |  Ho dem               |  Ten      | ngay sinh  |Gioi tinh|");
+					System.out.println("----------------------------------------------------------------------");
+				}else{
+					System.out.println("┌─────────┬───────────────────────┬───────────┬────────────┬─────────┐");
+					System.out.println("│   Ma    │  Ho dem               │  Ten      │ ngay sinh  │Gioi tinh│");
+					System.out.println("├─────────┼───────────────────────┼───────────┼────────────┼─────────┤");
+		    	}
 				int start = page*perPage-perPage;
 				int end = page*perPage;
 				if(page == totalPage) end = listSv.size()-1;
 				for (int i = start; i <= end; i++) {
 					System.out.println(listSv.get(i).getInfo());
+				}
+				if(DataIO.suportAscii == true) {
+					System.out.println("----------------------------------------------------------------------");
+				}else {
+					System.out.println("└─────────┴───────────────────────┴───────────┴────────────┴─────────┘");
 				}
 				System.out.format("\n--------------------trang %3d/%-3d------------------\n", page, totalPage);
 				System.out.format("\n\n%-30s%-30s%-30s\n","1. Xem trang tiep theo","3. Den trang cuoi","5. Xem trang cu the");

@@ -1,3 +1,9 @@
 eclipse.preferences.version=1
 encoding//src/main/Main.java=UTF-8
 encoding//src/main/QuanLyBangDiem.java=UTF-8
+encoding//src/main/QuanLyMonHoc.java=UTF-8
+encoding//src/main/QuanLySinhVien.java=UTF-8
+encoding//src/model/MonHoc.java=UTF-8
+encoding//src/model/SinhVien.java=UTF-8
+encoding//src/util/StringUtils.java=UTF-8
+encoding//src/util/Utils.java=UTF-8

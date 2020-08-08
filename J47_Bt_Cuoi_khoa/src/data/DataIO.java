@@ -16,10 +16,12 @@ public class DataIO {
 	static File _monhoc = null;
 	static File _sinhvien = null;
 	static File _diem = null;
+	public static boolean engMode = false;
 	
 	public static ArrayList<SinhVien> listSV;
 	public static ArrayList<MonHoc> dsMonHoc;
 	public static ArrayList<Diem> dsDiem;
+	public static boolean suportAscii = false;
 	static {
 		_monhoc = new File("data\\monhoc.txt");
 		_sinhvien = new File("data\\sinhvien.txt");

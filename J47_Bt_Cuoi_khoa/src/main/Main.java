@@ -10,21 +10,42 @@ import static main.QuanLySinhVien.editSv;
 import static main.QuanLySinhVien.showList;
 
 import static main.QuanLyBangDiem.addDiem;
+import static main.QuanLyBangDiem.editDiem;
+import static main.QuanLyBangDiem.deleteDiem;
+import static main.QuanLyBangDiem.showBangDiem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+
 
 import data.DataIO;
 import model.Diem;
 import model.MonHoc;
 import model.SinhVien;
+import util.StringUtils;
+import util.Utils;
 
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("\n\n\t\t\t┌──────────────────────────────────────────┐");
-		System.out.println("\t\t\t│          QUAN LY SINH VIEN 1.0.0         │");
-		System.out.println("\t\t\t└──────────────────────────────────────────┘\n\n");
+		if(args.length != 0) {
+			System.out.println(Arrays.toString(args));
+			for (int i = 0; i < args.length; i++) {
+				if(args[i].equals("-en")) DataIO.engMode = true;
+				if(args[i].equals("-ascii")) DataIO.suportAscii = true;
+			}
+		}
+		
+		if(DataIO.suportAscii == false) {
+			System.out.println("\n\n\t\t\t┌──────────────────────────────────────────┐");
+			System.out.println("\t\t\t│          QUAN LY SINH VIEN 1.0.0         │");
+			System.out.println("\t\t\t└──────────────────────────────────────────┘\n\n");
+		}else {
+			System.out.println("\n\n\t\t\t--------------------------------------------");
+			System.out.println("\t\t\t|          QUAN LY SINH VIEN 1.0.0         |");
+			System.out.println("\t\t\t--------------------------------------------\n\n");
+		}
 		ArrayList<SinhVien> listSv = DataIO.listSV;
 		ArrayList<MonHoc> dsMh = DataIO.dsMonHoc;
 		ArrayList<Diem> dsDiem = DataIO.dsDiem;
@@ -57,6 +78,10 @@ public class Main {
 	}
 
 	private static void printMenu(int n) {
+		if(DataIO.suportAscii) {
+			Utils.printMenu(n);
+			return;
+		}
 		if(n==1) {
 			System.out.println("\n\n┌────────────────────────────────┐");
 			System.out.format("│  %15s %14s│\n"," MENU","");
@@ -77,7 +102,7 @@ public class Main {
 			System.out.println("└──────────────────────────────────┘\n\n");
 		}else if(n==3) {
 			System.out.println("\n\n┌──────────────────────────────────┐");
-			System.out.format("│  %25s %2s│\n"," Cap nhat danh sach sinh vien","");
+			System.out.format("│  %25s %6s│\n"," DANH SACH SINH VIEN ","");
 			System.out.println("├──────────────────────────────────┤");
 			System.out.format("│ %-32s │\n","1. Them sinh vien");
 			System.out.format("│ %-32s │\n","2. Sua thong tin sv");
@@ -87,7 +112,7 @@ public class Main {
 			System.out.println("└──────────────────────────────────┘\n\n");
 		}else if(n==4) {
 			System.out.println("\n\n┌──────────────────────────────────┐");
-			System.out.format("│  %25s %4s│\n"," Cap nhat danh sach mon hoc","");
+			System.out.format("│  %25s %6s│\n"," DANH SACH MON HOC ","");
 			System.out.println("├──────────────────────────────────┤");
 			System.out.format("│ %-32s │\n","1. Them mon hoc");
 			System.out.format("│ %-32s │\n","2. Sua mon hoc");
@@ -97,7 +122,7 @@ public class Main {
 			System.out.println("└──────────────────────────────────┘\n\n");
 		}else if(n==5) {
 			System.out.println("\n\n┌──────────────────────────────────┐");
-			System.out.format("│  %-25s %6s│\n"," Cap nhat bang diem","");
+			System.out.format("│  %-25s %6s│\n"," BANG DIEM ","");
 			System.out.println("├──────────────────────────────────┤");
 			System.out.format("│ %-32s │\n","1. Them diem vao ds");
 			System.out.format("│ %-32s │\n","2. Sua diem trong ds");
@@ -149,13 +174,13 @@ public class Main {
 				addDiem(dsDiem);
 				break;
 			case 2:
-				//editMonHoc(dsDiem);
+				editDiem(dsDiem);
 				break;
 			case 3:
-				//deleteMonHoc(dsDiem);
+				deleteDiem(dsDiem);
 				break;
 			case 4:
-				//showListMonHoc(dsDiem);
+				hienThiBangDiem(dsDiem);
 				break;
 			case 0: System.out.println("[tro ve]");break;
 			default:
@@ -163,6 +188,15 @@ public class Main {
 				break;
 			}
 		}while(chon!=0);
+	}
+
+
+
+
+
+	private static void hienThiBangDiem(ArrayList<Diem> dsDiem) {
+		// FIXME 
+		
 	}
 
 	private static void updateListSV(ArrayList<SinhVien> listSv) {

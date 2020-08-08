@@ -2,6 +2,12 @@ package model;
 
 import java.awt.HeadlessException;
 
+import javax.xml.crypto.Data;
+
+import static util.StringUtils.removeAccent;
+
+import data.DataIO;
+
 public class SinhVien {
 	private String maSV, hodem, ten, ngaySinh, gioiTinh;
 	public static int currentCode = 0;
@@ -37,12 +43,15 @@ public class SinhVien {
 		this.maSV = maSV;
 	}
 	public String getHodem() {
+		if(DataIO.engMode) return removeAccent(hodem);
 		return hodem;
 	}
 	public void setHodem(String hodem) {
 		this.hodem = hodem;
 	}
 	public String getTen() {
+		if(DataIO.engMode)
+			return removeAccent(ten);
 		return ten;
 	}
 	public void setTen(String ten) {
@@ -55,6 +64,7 @@ public class SinhVien {
 		this.ngaySinh = ngaySinh;
 	}
 	public String getGioiTinh() {
+		if(DataIO.engMode) return removeAccent(gioiTinh);
 		return gioiTinh;
 	}
 	public void setGioiTinh(String gioiTinh) {
@@ -68,16 +78,23 @@ public class SinhVien {
 	}
 
 	public void showInfo() {
-		String out = String.format("[%8s  %s %s  %s  %s]", maSV, hodem, ten, ngaySinh, gioiTinh);
+		String out = String.format("[%8s  %s %s  %s  %s]",  maSV,getHodem(),getTen(),ngaySinh, getGioiTinh());
 		System.out.println(out);
 	}
 
 	public String getInfo() {
-		String out = String.format("%-11s %-18s %-11s %-12s %-6s", maSV,hodem,ten,ngaySinh, gioiTinh);
+		String out;
+		if(DataIO.suportAscii == true) {
+			out = String.format("|%-9s| %-21s | %-9s | %-11s| %-6s  |", maSV,getHodem(),getTen(),ngaySinh, getGioiTinh());
+		}else {
+			out = String.format("│%-9s│ %-21s │ %-9s │ %-11s│ %-6s  │", maSV,getHodem(),getTen(),ngaySinh, getGioiTinh());
+		}
+		
 		return out;
 	}
 
 	public String getFullName() {
+		if(DataIO.engMode) return getHodem()+" "+getTen();
 		return hodem+" "+ten;
 	}
 	

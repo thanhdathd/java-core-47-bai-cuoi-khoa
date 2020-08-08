@@ -2,6 +2,7 @@ package main;
 
 import static util.StringUtils.depart;
 import static util.Utils.inputPage;
+import static util.Utils.inThongBao;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -22,13 +23,27 @@ public class QuanLyMonHoc {
 		int chon;
 		Scanner sc = new Scanner(System.in);
 		do {
-			System.out.println("\n----------------------------------------------------");
-			System.out.format("--------------------trang %3d/%-3d------------------\n", page, totalPage);
+			System.out.println("\n------------------DANH SACH MON HOC------------------");
+			System.out.format("--------------------trang %3d/%-3d------------------\n\n", page, totalPage);
+			if(DataIO.suportAscii == true) {
+				System.out.println("---------------------------------------------");
+				System.out.println("|  Ma  |        Ten mon hoc         | he so |");
+				System.out.println("---------------------------------------------");
+			}else{
+				System.out.println("┌──────┬────────────────────────────┬───────┐");
+				System.out.println("│  Ma  │        Ten mon hoc         │ he so │");
+				System.out.println("├──────┼────────────────────────────┼───────┤");
+	    	}
 			int start = page*perPage-perPage;
 			int end = page*perPage;
 			if(page == totalPage) end = dsMh.size()-1;
 			for (int i = start; i <= end; i++) {
 				System.out.println(dsMh.get(i).getInfo());
+			}
+			if(DataIO.suportAscii == true) {
+				System.out.println("---------------------------------------------");
+			}else {
+				System.out.println("└──────┴────────────────────────────┴───────┘");
 			}
 			System.out.format("\n--------------------trang %3d/%-3d------------------\n", page, totalPage);
 			System.out.format("\n\n%-30s%-30s%-30s\n","1. Xem trang tiep theo","3. Den trang cuoi","5. Xem trang cu the");
@@ -71,93 +86,105 @@ public class QuanLyMonHoc {
 	}
 
 	public static void deleteMonHoc(ArrayList<MonHoc> dsMh) {
-		System.out.println("\nNhap ma mon hoc muon xoa:");
-		System.out.println("Nhap:");
 		Scanner sc = new Scanner(System.in);
-		int ma = sc.nextInt();
-		MonHoc target = null;
-		for (MonHoc m : dsMh) {
-			if (m.getCode() == ma) {
-				target = m;
-				break;
-			}
-		}
-		if (target != null) {
-			boolean daHoc = false;
-			for (Diem d : DataIO.dsDiem) {
-				if (d.getMaMh().equals(target.getStringCode())) {
-					daHoc = true;
+		String input;
+		do {
+			System.out.println("\nNhap ma mon hoc muon xoa:");
+			System.out.println("Nhap ... de quay lai");
+			System.out.println("Nhap:");
+			input = sc.nextLine();
+			if(input.equals("...")) continue;
+			int ma = Integer.parseInt(input);
+			MonHoc target = null;
+			for (MonHoc m : dsMh) {
+				if (m.getCode() == ma) {
+					target = m;
 					break;
 				}
 			}
-			if (!daHoc) {
-				System.out.println("Tim thay:");
-				target.showInfo();
-				System.out.println("\nBan co chac chan muon xoa(c/k)?");
-				sc.nextLine();
-				String select = sc.nextLine();
-				if (select.equals("c")) {
-					dsMh.remove(target);
-					System.out.println("Xoa thanh cong!");
+			if (target != null) {
+				boolean daHoc = false;
+				for (Diem d : DataIO.dsDiem) {
+					if (d.getMaMh().equals(target.getStringCode())) {
+						daHoc = true;
+						break;
+					}
+				}
+				if (!daHoc) {
+					System.out.println("Tim thay:");
+					target.showInfo("border");
+					System.out.println("\nBan co chac chan muon xoa(c/k)?");
+					String select = sc.nextLine();
+					if (select.equals("c")) {
+						dsMh.remove(target);
+						inThongBao("Xoa thanh cong!","border");
+					}
+				} else {
+					System.out.println("Tim thay:");
+					target.showInfo("border");
+					inThongBao("Mon hoc nay da co sinh vien hoc, khong the xoa","border");
 				}
 			} else {
-				System.out.println("Tim thay:");
-				target.showInfo();
-				System.out.println("\nMon hoc nay da co sinh vien hoc, khong the xoa");
+				System.out.println("\nKhong tim thay mon hoc");
 			}
-		} else {
-			System.out.println("\nKhong tim thay mon hoc");
-		}
+		}while(!input.equals("..."));
+		
 	}
 
 	public static void editMonHoc(ArrayList<MonHoc> dsMh) {
-		System.out.println("\nNhap ma mon hoc muon sua");
-		System.out.println("Nhap:");
 		Scanner sc = new Scanner(System.in);
-		int ma = sc.nextInt();
-		MonHoc target = null;
-		for (MonHoc m : dsMh) {
-			if (m.getCode() == ma) {
-				target = m;
-				break;
-			}
-		}
-		if (target != null) {
-			System.out.println("Tim thay mon hoc:\n");
-			target.showInfo();
-			System.out.println("\nNhap lai thong tin mon hoc theo dang\t[ten mon hoc];[he so diem]");
-			System.out.println("Neu khong muon sua muc nao thi bo trong muc do");
-			System.out.println("Vi du:Toan cao cap;");
+		System.out.println("\nNhap ma mon hoc muon sua:");
+		String input;
+		do {
+			System.out.println("Nhap ... de quay lai");
 			System.out.println("\nNhap:");
-			sc.nextLine();
-			String line = sc.nextLine();
-			String part[] = depart(line);
-			String name = part[0];
-			String hs = part[1];
-			if (!name.isEmpty()) {
-				target.setName(name);
+			input = sc.nextLine();
+			if(input.equals("..."))continue;
+			int ma = Integer.parseInt(input);
+			MonHoc target = null;
+			for (MonHoc m : dsMh) {
+				if (m.getCode() == ma) {
+					target = m;
+					break;
+				}
 			}
-			if (!hs.isEmpty()) {
-				target.setHs(Float.parseFloat(hs));
+			if (target != null) {
+				System.out.println("Tim thay mon hoc:");
+				target.showInfo("border");
+				System.out.println("\nNhap lai thong tin mon hoc theo dang\t[ten mon hoc];[he so diem]");
+				System.out.println("Neu khong muon sua muc nao thi bo trong muc do");
+				System.out.println("Vi du:Toan cao cap;");
+				System.out.println("\nNhap:");
+				//sc.nextLine();
+				String line = sc.nextLine();
+				String part[] = depart(line);
+				String name = part[0];
+				String hs = part[1];
+				if (!name.isEmpty()) {
+					target.setName(name);
+				}
+				if (!hs.isEmpty()) {
+					target.setHs(Float.parseFloat(hs));
+				}
+				System.out.println("\nSua thanh cong:");
+				target.showInfo("border");
+			} else {
+				System.out.println("Khong tim thay mon hoc");
 			}
-			System.out.println("\nSua thanh cong:");
-			target.showInfo();
-		} else {
-			System.out.println("Khong tim thay mon hoc");
-		}
+		}while(!input.equals("..."));
+		
 	}
 
 	public static void addMonHoc(ArrayList<MonHoc> dsMh) {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("\nNhap thong tin mon hoc theo dang");
-		System.out.println("[ten mon hoc];[he so]");
-		System.out.println("Vi du:Toan cao cap;3.0");
+		String tb = "Nhap thong tin mon hoc theo dang,[ten mon hoc];[he so],Vi du:Toan cao cap;3.0";
+		inThongBao(tb, "border");
 		String line;
 		do {
-			System.out.println("\nNhap exit de quay lai");
+			System.out.println("\nNhap ... de quay lai");
 			System.out.println("Nhap:");
 			line = sc.nextLine();
-			if (line.equals("exit"))
+			if (line.equals("..."))
 				continue;
 			String part[] = depart(line);
 			String name = part[0];
@@ -165,8 +192,15 @@ public class QuanLyMonHoc {
 			MonHoc mh = new MonHoc(name, Float.parseFloat(heso));
 			dsMh.add(mh);
 			System.out.println("Them thanh cong:");
-			mh.showInfo();
-		} while (!line.equals("exit"));
+			mh.showInfo("border");
+		} while (!line.equals("..."));
+	}
+
+	public static String getTenMh(String ma) {
+		for (MonHoc m : DataIO.dsMonHoc) {
+			if(m.getStringCode().equals(ma)) return m.getName();
+		}
+		return "";
 	}
 
 }
