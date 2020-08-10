@@ -60,7 +60,7 @@ public class Main {
 				capNhatDanhSach(listSv, dsMh, dsDiem);
 				break;
 			case 2:
-
+				hienThiBangDiem(listSv,dsMh,dsDiem);
 				break;
 			case 3:
 
@@ -180,7 +180,7 @@ public class Main {
 				deleteDiem(dsDiem);
 				break;
 			case 4:
-				hienThiBangDiem(dsDiem);
+				hienThiBangDiem(null, null, dsDiem);// FIXME
 				break;
 			case 0: System.out.println("[tro ve]");break;
 			default:
@@ -194,7 +194,7 @@ public class Main {
 
 
 
-	private static void hienThiBangDiem(ArrayList<Diem> dsDiem) {
+	private static void hienThiBangDiem(ArrayList<SinhVien> listSv, ArrayList<MonHoc> dsMh, ArrayList<Diem> dsDiem) {
 		// FIXME 
 		
 	}
