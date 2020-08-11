@@ -1,12 +1,19 @@
 package data;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Diem;
 import model.MonHoc;
@@ -93,9 +100,65 @@ public class DataIO {
 		}
 		return list;
 	}
+	
+	
+	private static <T> void saveData(File file, ArrayList<T> ls) {
+		FileWriter fw = null;
+		BufferedWriter bufW = null;
+		ArrayList<Data> list = (ArrayList<Data>) ls;
+		try {
+			if(file.exists()) {
+				fw = new FileWriter(file);
+				bufW = new BufferedWriter(fw);
+			}else {
+				Path source = Paths.get(DataIO.class.getResource("/").getPath());
+				Path p = Files.createFile(source, null);
+				fw = new FileWriter(p.toFile());
+				bufW = new BufferedWriter(fw);
+			}
+			bufW.write(list.get(0).getColumns());
+			bufW.newLine();
+			for (Data data : list) {
+				bufW.write(data.getLine());
+				bufW.newLine();
+			}
+		}catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(bufW!=null) bufW.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	public static void setEngMode(boolean mode) {
+		engMode = mode;
+		_sinhvien = new File("data\\sinhvien_en.txt");
+		listSV = loadSinhVien();
+		_monhoc = new File("data\\monhoc_en.txt");
+		dsMonHoc = loadMonHoc();
+	}
 
 	
 	public static void saveAllData(ArrayList<SinhVien> ls1, ArrayList<MonHoc> ls2, ArrayList<Diem> ls3) {
+		saveSinhVien();
+		saveDiem();
+		saveMonHoc();
+	}
+
+	private static void saveSinhVien() {
+		saveData(_sinhvien, listSV);
+	}
+
+	private static void saveDiem() {
+		saveData(_diem, dsDiem);
+	}
+
+	private static void saveMonHoc() {
+		saveData(_monhoc, dsMonHoc);
 		
 	}
 }

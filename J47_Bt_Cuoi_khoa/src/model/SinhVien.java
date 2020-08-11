@@ -1,14 +1,9 @@
 package model;
 
-import java.awt.HeadlessException;
-
-import javax.xml.crypto.Data;
-
-import static util.StringUtils.removeAccent;
-
+import data.Data;
 import data.DataIO;
 
-public class SinhVien {
+public class SinhVien implements Data{
 	private String maSV, hodem, ten, ngaySinh, gioiTinh;
 	public static int currentCode = 0;
 	public SinhVien(String hodem, String ten, String ngaySinh, String gioiTinh) {
@@ -43,16 +38,13 @@ public class SinhVien {
 		this.maSV = maSV;
 	}
 	public String getHodem() {
-		if(DataIO.engMode) return removeAccent(hodem);
-		return hodem;
+		return hodem.trim();
 	}
 	public void setHodem(String hodem) {
 		this.hodem = hodem;
 	}
 	public String getTen() {
-		if(DataIO.engMode)
-			return removeAccent(ten);
-		return ten;
+		return ten.trim();
 	}
 	public void setTen(String ten) {
 		this.ten = ten;
@@ -64,17 +56,22 @@ public class SinhVien {
 		this.ngaySinh = ngaySinh;
 	}
 	public String getGioiTinh() {
-		if(DataIO.engMode) return removeAccent(gioiTinh);
 		return gioiTinh;
 	}
 	public void setGioiTinh(String gioiTinh) {
 		this.gioiTinh = gioiTinh;
 	}
 	
-	
+	@Override
 	public String getLine() {
 		String line = maSV+";"+hodem+";"+ten+";"+ngaySinh+";"+gioiTinh;
 		return line;
+	}
+	
+	@Override
+	public String getColumns() {
+		// TODO Auto-generated method stub
+		return "# ma sv; ho dem; ten; ngay sinh; gioi tinh";
 	}
 
 	public void showInfo() {
@@ -94,8 +91,7 @@ public class SinhVien {
 	}
 
 	public String getFullName() {
-		if(DataIO.engMode) return getHodem()+" "+getTen();
-		return hodem+" "+ten;
+		return getHodem()+" "+getTen();
 	}
 	
 	

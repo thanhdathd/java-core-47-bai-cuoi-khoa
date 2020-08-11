@@ -80,7 +80,23 @@ public class Utils {
 			System.out.format("| %-32s |\n","1. Them diem vao ds");
 			System.out.format("| %-32s |\n","2. Sua diem trong ds");
 			System.out.format("| %-32s |\n","3. Xoa diem trong ds");
-			System.out.format("| %-32s |\n","4. Hien thi bang diem");
+			System.out.format("| %-32s |\n","0. Tro ve menu truoc");
+			System.out.println("------------------------------------\n\n");
+		}else if(n==6) {
+	    	System.out.println("\n\n------------------------------------");
+			System.out.format("|  %-25s %6s|\n"," BANG DIEM ","");
+			System.out.println("------------------------------------");
+			System.out.format("| %-32s |\n","1. Bang diem theo ds sinh vien");
+			System.out.format("| %-32s |\n","2. Bang diem theo ds mon hoc");
+			System.out.format("| %-32s |\n","0. Tro ve menu truoc");
+			System.out.println("------------------------------------\n\n");
+		}else if(n==7) {
+			System.out.println("\n\n------------------------------------");
+			System.out.format("|  %-25s %6s│\n"," TIM KIEM ","");
+			System.out.println("|----------------------------------|");
+			System.out.format("| %-32s |\n","1. Tim kiem theo ma sinh vien");
+			System.out.format("| %-32s |\n","2. Tim kiem theo ten sinh vien");
+			System.out.format("| %-32s |\n","3. Tim kiem ma mon hoc");
 			System.out.format("| %-32s |\n","0. Tro ve menu truoc");
 			System.out.println("------------------------------------\n\n");
 		}

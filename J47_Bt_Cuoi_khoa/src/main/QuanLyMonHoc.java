@@ -203,4 +203,48 @@ public class QuanLyMonHoc {
 		return "";
 	}
 
+	public static float getHeso(String maMh) {
+		for (MonHoc m : DataIO.dsMonHoc) {
+			if(m.getStringCode().equals(maMh)) return m.getHs();
+		}
+		return 0;
+	}
+	// TODO tim kiem theo ma mon hoc
+	public static void searchByMaMh(ArrayList<MonHoc> dsMh) {
+		System.out.println("Nhap ma mon hoc:");
+		Scanner sc = new Scanner(System.in);
+		String line = sc.nextLine();
+		MonHoc target = null;
+		for (MonHoc m : dsMh) {
+			if(m.getStringCode().equals(line)) {
+				target = m;
+			}
+		}
+		if(target!=null) {
+			System.out.println("Tim thay:");
+			target.showInfo("border");
+			
+			QuanLyBangDiem.showBangDiemByMH(target);
+			int chon;
+			do {
+				System.out.println("\n1. Xem chi tiet");
+				System.out.println("0. tro ve menu truoc");
+				chon = sc.nextInt();
+				switch (chon) {
+				case 1:
+					QuanLyBangDiem.chitietBangDiemMH(target.getStringCode());
+					break;
+				case 0: 
+					System.out.println("[Tro ve]");
+					break;
+				default:
+					System.out.println("[Chon sai]");
+					break;
+				}
+			}while(chon!=0);
+		}else {
+			System.out.println("Khong tim thay mon hoc["+line+"]");
+		}
+	}
+
 }

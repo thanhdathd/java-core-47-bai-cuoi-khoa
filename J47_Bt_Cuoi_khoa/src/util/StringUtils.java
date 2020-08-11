@@ -1,10 +1,15 @@
 package util;
 
+import static main.QuanLyMonHoc.getTenMh;
+
 import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import data.DataIO;
+import main.QuanLyBangDiem;
+import main.QuanLySinhVien;
+import model.Diem;
 
 public class StringUtils {
 
@@ -13,7 +18,8 @@ public class StringUtils {
 //		temp = temp.replace("Đ", "D").replace("đ", "d");
 //		Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
 //		return pattern.matcher(temp).replaceAll("");
-		return boDau(s);
+		//return boDau(s);
+		return s;
 	}
 	
 	// " LAª Tha»‹ Dia»‡u   An          02/04/1998   Na»¯"
@@ -26,7 +32,7 @@ public class StringUtils {
     private static final String NONE_MARKS = "abcdefghijklmnopqrstuvxyzwABCDEFGHIJKLMNOPQRSTUVXYZW";
 
     public static String boDau(String str) {
-    	str = str.replace("a»¯", "u").replace("a»‡", "e").replace("Aª", "e");
+    	//str = str.replace("a»¯", "u").replace("a»‡", "e").replace("Aª", "e");
     	StringBuilder sb = new StringBuilder();
     	int n = str.length();
     	for (int i = 0; i < n; i++) {
@@ -42,6 +48,7 @@ public class StringUtils {
 				}
 			}
 		}
+    	
         return sb.toString();
     }
     

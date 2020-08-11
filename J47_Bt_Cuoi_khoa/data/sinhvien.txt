@@ -1,4 +1,4 @@
-#Mã - Họ đệm - Tên - Ngày sinh - Giới tính
+# ma sv; ho dem; ten; ngay sinh; gioi tinh
 SV00001;Võ Ngọc;Dũng;01/09/1996;Nam
 SV00002;Hoàng Trần Đức;Hạnh;27/01/1997;Nữ
 SV00003;Ngô Thị Thùy;Trang;20/08/1997;Nữ

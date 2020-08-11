@@ -15,9 +15,10 @@ import java.util.Scanner;
 import data.DataIO;
 import model.Diem;
 import model.SinhVien;
+import util.StringUtils;
 
 public class QuanLySinhVien {
-	
+
 	// TODO xoa sinh vien chua hoc khoi danh sach
 	public static void deleteSv(ArrayList<SinhVien> listSv) {
 		System.out.println("\nNhap ma sinh vien muon xoa:");
@@ -127,78 +128,172 @@ public class QuanLySinhVien {
 			sv.showInfo();
 		} while (!line.equals("exit"));
 	}
-	
-	
+
 	// TODO hien thi danh sach sv
-		public static void showList(ArrayList<SinhVien> listSv) {
-			sortListSV(listSv);
-			int perPage = 50;
-			int totalPage =  (int) Math.ceil(listSv.size()/(double)perPage);
-			int page = 1;
-			int chon;
-			Scanner sc = new Scanner(System.in);
-			do {
-				System.out.println("\n-----------------DANH SACH SINH VIEN-------------------");
-				System.out.format("--------------------trang %3d/%-3d------------------\n", page, totalPage);
-				if(DataIO.suportAscii == true) {
-			    	System.out.println("----------------------------------------------------------------------");
-					System.out.println("|   Ma    |  Ho dem               |  Ten      | ngay sinh  |Gioi tinh|");
-					System.out.println("----------------------------------------------------------------------");
-				}else{
-					System.out.println("┌─────────┬───────────────────────┬───────────┬────────────┬─────────┐");
-					System.out.println("│   Ma    │  Ho dem               │  Ten      │ ngay sinh  │Gioi tinh│");
-					System.out.println("├─────────┼───────────────────────┼───────────┼────────────┼─────────┤");
-		    	}
-				int start = page*perPage-perPage;
-				int end = page*perPage;
-				if(page == totalPage) end = listSv.size()-1;
-				for (int i = start; i <= end; i++) {
-					System.out.println(listSv.get(i).getInfo());
-				}
-				if(DataIO.suportAscii == true) {
-					System.out.println("----------------------------------------------------------------------");
-				}else {
-					System.out.println("└─────────┴───────────────────────┴───────────┴────────────┴─────────┘");
-				}
-				System.out.format("\n--------------------trang %3d/%-3d------------------\n", page, totalPage);
-				System.out.format("\n\n%-30s%-30s%-30s\n","1. Xem trang tiep theo","3. Den trang cuoi","5. Xem trang cu the");
-				System.out.format("%-30s%-30s%-30s\n","2. Tro lai trang truoc","4. Den trang dau tien","0. Tro ve menu truoc");
-				System.out.println("\nChon:");
-				chon = sc.nextInt();
-				switch (chon) {
-				case 1:
-					if(!(page>=totalPage))page++;
-					break;
-				case 2:
-					if(!(page<=1)) page--;
-					break;
-				case 3:
-					page = totalPage;
-					break;
-				case 4:
-					page = 1;
-					break;
-				case 5:
-					page = inputPage(sc, totalPage);
-					break;
-				case 0:
-					System.out.println("[tro ve]");
-					break;
-				default:
-					System.out.println("Chon sai");
-					break;
-				}
-			}while(chon != 0);
-		}
+	public static void showList(ArrayList<SinhVien> listSv, int perPage, String title) {
+		sortListSV(listSv);
+		int totalPage = (int) Math.ceil(listSv.size() / (double) perPage);
+		int page = 1;
+		int chon;
+		Scanner sc = new Scanner(System.in);
+		do {
+			System.out.println("\n-----------------"+title+"-------------------");
+			System.out.format("--------------------trang %3d/%-3d------------------\n", page, totalPage);
+			if (DataIO.suportAscii == true) {
+				System.out.println("----------------------------------------------------------------------");
+				System.out.println("|   Ma    |  Ho dem               |  Ten      | ngay sinh  |Gioi tinh|");
+				System.out.println("----------------------------------------------------------------------");
+			} else {
+				System.out.println("┌─────────┬───────────────────────┬───────────┬────────────┬─────────┐");
+				System.out.println("│   Ma    │  Ho dem               │  Ten      │ ngay sinh  │Gioi tinh│");
+				System.out.println("├─────────┼───────────────────────┼───────────┼────────────┼─────────┤");
+			}
+			int start = page * perPage - perPage;
+			int end = page * perPage;
+			if (page == totalPage)
+				end = listSv.size() - 1;
+			for (int i = start; i <= end; i++) {
+				System.out.println(listSv.get(i).getInfo());
+			}
+			if (DataIO.suportAscii == true) {
+				System.out.println("----------------------------------------------------------------------");
+			} else {
+				System.out.println("└─────────┴───────────────────────┴───────────┴────────────┴─────────┘");
+			}
+			System.out.format("\n--------------------trang %3d/%-3d------------------\n", page, totalPage);
+			if(totalPage > 1) {
+				System.out.format("\n\n%-30s%-30s%-30s\n", "1. Xem trang tiep theo", "3. Den trang cuoi",
+						"5. Xem trang cu the");
+				System.out.format("%-30s%-30s%-30s\n", "2. Tro lai trang truoc", "4. Den trang dau tien",
+						"0. Tro ve menu truoc");
+				System.out.println("6. Xem chi tiet bang diem");
+			}else {
+				System.out.println("6. Xem chi tiet bang diem");
+				System.out.println("0. tro ve menu truoc");
+			}
+			System.out.println("\nChon:");
+			chon = sc.nextInt();
+			switch (chon) {
+			case 1:
+				if (!(page >= totalPage))
+					page++;
+				break;
+			case 2:
+				if (!(page <= 1))
+					page--;
+				break;
+			case 3:
+				page = totalPage;
+				break;
+			case 4:
+				page = 1;
+				break;
+			case 5:
+				page = inputPage(sc, totalPage);
+				break;
+			case 6:
+				xemChiTietBangDiem(listSv);
+				break;
+			case 0:
+				System.out.println("[tro ve]");
+				break;
+			default:
+				System.out.println("Chon sai");
+				break;
+			}
+		} while (chon != 0);
+	}
 
-		private static void sortListSV(ArrayList<SinhVien> listSv) {
-			Collections.sort(listSv, (s1,s2) -> {
-				Locale vn = new Locale("vn", "vi");
-				Collator col = Collator.getInstance(vn);
-				return col.compare(s1.getTen(), s2.getTen());
-			});
+	private static void xemChiTietBangDiem(ArrayList<SinhVien> listSv) {
+		Scanner sc = new Scanner(System.in);
+		SinhVien target = null;
+		String line = "";
+		if(listSv.size() > 1) {
+			System.out.println("Nhap ma sinh vien:");
+			 line = sc.nextLine();
+			for (SinhVien s : DataIO.listSV) {
+				if(s.getMaSV().equals(line)) {
+					target = s;
+				}
+			}
+		}else {
+			target = listSv.get(0); // neu ds chi co 1 sv duy nhat, auto chon sv do
 		}
-
 		
+		if(target != null) {
+			QuanLyBangDiem.showBangDiemBySV(target, true);
+		}else {
+			System.out.println("Khong tim thay sinh vien ["+line+"]");
+		}
+		
+	}
+
+	public static void sortListSV(ArrayList<SinhVien> listSv) {
+		Collections.sort(listSv, (s1, s2) -> {
+			Locale vn = new Locale("vn", "vi");
+			Collator col = Collator.getInstance(vn);
+			return col.compare(s1.getTen(), s2.getTen());
+		});
+	}
+
+	public static void sortByMa(ArrayList<SinhVien> listSv) {
+		Collections.sort(listSv, (s1, s2) -> {
+			return s1.getMaSV().compareTo(s2.getMaSV());
+		});
+
+	}
+
+	public static String getTenSV(String maSv) {
+		for (SinhVien s : DataIO.listSV) {
+			if (s.getMaSV().equals(maSv)) {
+				return s.getFullName();
+			}
+		}
+		return "";
+	}
+
+	// TODO tim kiem theo ma sinh vien
+	public static void searchByMaSV(ArrayList<SinhVien> listSv) {
+		System.out.println("Nhap ma sinh vien:");
+		Scanner sc = new Scanner(System.in);
+		String line = sc.nextLine();
+		SinhVien target = null;
+		for (SinhVien s : listSv) {
+			if (s.getMaSV().equals(line)) {
+				target = s;
+				break;
+			}
+		}
+		if(target!=null) {
+			QuanLyBangDiem.showBangDiemBySV(target, true);
+		}else {
+			System.out.println("Khong tim thay sinh vien ["+line+"]");
+		}
+
+	}
+	
+	// TODO tim kiem theo ten sinh vien
+	public static void searchByName(ArrayList<SinhVien> listSv) {
+		System.out.println("Nhap ten sinh vien:");
+		Scanner sc = new Scanner(System.in);
+		String line = sc.nextLine();
+		ArrayList<SinhVien> dsKetQua = new ArrayList<SinhVien>();
+		for (SinhVien s : listSv) {
+			String name = StringUtils.boDau(s.getFullName()).toLowerCase();
+			String keyword = StringUtils.boDau(line).toLowerCase();
+			if(s.getMaSV().startsWith("SV0013")) {
+				System.out.println("name:"+name);
+				System.out.println(" -> key:"+keyword);
+			}
+			if (name.contains(keyword)) {
+				dsKetQua.add(s);
+			}
+		}
+		if(dsKetQua.size() > 0) {
+			showList(dsKetQua, 20, "KET QUA TIM KIEM");
+		}else {
+			System.out.println("Khong tim thay sinh vien ["+line+"]");
+		}
+	}
 
 }

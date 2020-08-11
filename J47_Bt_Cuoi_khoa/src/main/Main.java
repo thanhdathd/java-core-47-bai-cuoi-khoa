@@ -3,12 +3,14 @@ import static data.DataIO.saveAllData;
 import static main.QuanLyMonHoc.addMonHoc;
 import static main.QuanLyMonHoc.deleteMonHoc;
 import static main.QuanLyMonHoc.editMonHoc;
+import static main.QuanLyMonHoc.getTenMh;
 import static main.QuanLyMonHoc.showListMonHoc;
 import static main.QuanLySinhVien.addSv;
 import static main.QuanLySinhVien.deleteSv;
 import static main.QuanLySinhVien.editSv;
 import static main.QuanLySinhVien.showList;
-
+import static main.QuanLySinhVien.sortByMa;
+import static util.Utils.inputPage;
 import static main.QuanLyBangDiem.addDiem;
 import static main.QuanLyBangDiem.editDiem;
 import static main.QuanLyBangDiem.deleteDiem;
@@ -16,6 +18,7 @@ import static main.QuanLyBangDiem.showBangDiem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -32,7 +35,10 @@ public class Main {
 		if(args.length != 0) {
 			System.out.println(Arrays.toString(args));
 			for (int i = 0; i < args.length; i++) {
-				if(args[i].equals("-en")) DataIO.engMode = true;
+				if(args[i].equals("-en")) {
+					//DataIO.engMode = true;
+					DataIO.setEngMode(true);
+				}
 				if(args[i].equals("-ascii")) DataIO.suportAscii = true;
 			}
 		}
@@ -52,23 +58,34 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		int select1;
 		do {
-			printMenu(1);
-			System.out.println("Chon:");
-			select1 = sc.nextInt();
-			switch (select1) {
-			case 1:
-				capNhatDanhSach(listSv, dsMh, dsDiem);
-				break;
-			case 2:
-				hienThiBangDiem(listSv,dsMh,dsDiem);
-				break;
-			case 3:
-
-				break;
-			case 0:break;
-			default:
-				System.out.println("Chon sai");
-				break;
+			try {
+				printMenu(1);
+				System.out.println("Chon:");
+				select1 = sc.nextInt();
+				switch (select1) {
+				case 1:
+					capNhatDanhSach(listSv, dsMh, dsDiem);
+					break;
+				case 2:
+					hienThiBangDiem(listSv,dsMh,dsDiem);
+					break;
+				case 3:
+					timKiem(listSv,dsMh,dsDiem);
+					break;
+				case 0:break;
+				default:
+					System.out.println("Chon sai");
+					break;
+				}
+			}catch (InputMismatchException e) {
+				System.out.println("Nhap sai");
+				select1 = 5;
+				sc.nextLine();
+				continue;
+			}catch (Exception e) {
+				System.out.println("Loi:"+e.getClass().getCanonicalName());
+				select1 = 5;
+				continue;
 			}
 		} while (select1 != 0);
 
@@ -76,6 +93,36 @@ public class Main {
 			saveAllData(listSv, dsMh, dsDiem);
 		}
 	}
+
+	//TODO III menu tim kiem
+	private static void timKiem(ArrayList<SinhVien> listSv, ArrayList<MonHoc> dsMh, ArrayList<Diem> dsDiem) {
+		Scanner sc = new Scanner(System.in);
+		int select1;
+		do {
+			//clrscr();
+			printMenu(7);
+			System.out.println("Chon:");
+			select1 = sc.nextInt();
+			switch (select1) {
+			case 1:
+				QuanLySinhVien.searchByMaSV(listSv);
+				break;
+			case 2:
+				QuanLySinhVien.searchByName(listSv);
+				break;
+			case 3:
+				QuanLyMonHoc.searchByMaMh(dsMh);
+				break;
+			case 0: System.out.println("Tro ve");break;
+			default:
+				System.out.println("Chon sai");
+				break;
+			}
+		} while (select1 != 0);
+	}
+
+	
+	
 
 	private static void printMenu(int n) {
 		if(DataIO.suportAscii) {
@@ -127,13 +174,30 @@ public class Main {
 			System.out.format("│ %-32s │\n","1. Them diem vao ds");
 			System.out.format("│ %-32s │\n","2. Sua diem trong ds");
 			System.out.format("│ %-32s │\n","3. Xoa diem trong ds");
-			System.out.format("│ %-32s │\n","4. Hien thi bang diem");
+			System.out.format("│ %-32s │\n","0. Tro ve menu truoc");
+			System.out.println("└──────────────────────────────────┘\n\n");
+		}else if(n==6) {
+			System.out.println("\n\n┌──────────────────────────────────┐");
+			System.out.format("│  %-25s %6s│\n"," BANG DIEM ","");
+			System.out.println("├──────────────────────────────────┤");
+			System.out.format("│ %-32s │\n","1. Bang diem theo ds sinh vien");
+			System.out.format("│ %-32s │\n","2. Bang diem theo ds mon hoc");
+			System.out.format("│ %-32s │\n","0. Tro ve menu truoc");
+			System.out.println("└──────────────────────────────────┘\n\n");
+		}else if(n==7) {
+			System.out.println("\n\n┌──────────────────────────────────┐");
+			System.out.format("│  %-25s %6s│\n"," TIM KIEM ","");
+			System.out.println("├──────────────────────────────────┤");
+			System.out.format("│ %-32s │\n","1. Tim kiem theo ma sinh vien");
+			System.out.format("│ %-32s │\n","2. Tim kiem theo ten sinh vien");
+			System.out.format("│ %-32s │\n","3. Tim kiem ma mon hoc");
 			System.out.format("│ %-32s │\n","0. Tro ve menu truoc");
 			System.out.println("└──────────────────────────────────┘\n\n");
 		}
 	}
 	
 	
+	// TODO I Cap nhat danh sach
 	private static void capNhatDanhSach(ArrayList<SinhVien> listSv,
 			ArrayList<MonHoc> dsMh, ArrayList<Diem> dsDiem) {
 		Scanner sc = new Scanner(System.in);
@@ -179,9 +243,6 @@ public class Main {
 			case 3:
 				deleteDiem(dsDiem);
 				break;
-			case 4:
-				hienThiBangDiem(null, null, dsDiem);// FIXME
-				break;
 			case 0: System.out.println("[tro ve]");break;
 			default:
 				System.out.println("Chon sai");
@@ -193,11 +254,31 @@ public class Main {
 
 
 
-
+	//TODO II hien thi bang diem
 	private static void hienThiBangDiem(ArrayList<SinhVien> listSv, ArrayList<MonHoc> dsMh, ArrayList<Diem> dsDiem) {
-		// FIXME 
+		Scanner sc = new Scanner(System.in);
+		int chon;
+		do {
+			printMenu(6);
+			System.out.println("Chon:");
+			chon = sc.nextInt();
+			switch (chon) {
+			case 1:
+				QuanLyBangDiem.dsDiemBySV(listSv, dsMh, dsDiem);
+				break;
+			case 2:
+				QuanLyBangDiem.dsDiemByMonHoc(listSv, dsMh, dsDiem);
+				break;
+			case 0: System.out.println("[tro ve]");break;
+			default:
+				System.out.println("Chon sai");
+				break;
+			}
+		}while(chon!=0);
 		
 	}
+
+	
 
 	private static void updateListSV(ArrayList<SinhVien> listSv) {
 		Scanner sc = new Scanner(System.in);
@@ -217,7 +298,7 @@ public class Main {
 				deleteSv(listSv);
 				break;
 			case 4:// hien ds
-				showList(listSv);
+				showList(listSv, 50, "DANH SACH SINH VIEN");
 				break;
 			case 0: System.out.println("[Tro ve]");break;
 			default:

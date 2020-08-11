@@ -1,4 +1,4 @@
-# Ma - Ten - he so
+#Ma ; Ten mon hoc; he so diem
 001;Tin Dai Cuong I;1.0
 002;Tin Dai Cuong II;2.0
 003;Toan cao cap I;1.0

@@ -3,9 +3,10 @@ import static util.StringUtils.removeAccent;
 
 import java.util.Locale;
 
+import data.Data;
 import data.DataIO;
 
-public class MonHoc {
+public class MonHoc implements Data{
 	int code;
 	static int currentCode = 1;
 	private String name;
@@ -31,8 +32,7 @@ public class MonHoc {
 	}
 
 	public String getName() {
-		if(DataIO.engMode) return removeAccent(name);
-		return name;
+		return name.trim();
 	}
 
 	public void setName(String name) {
@@ -85,7 +85,19 @@ public class MonHoc {
 			System.out.format("[%03d  %s  %-3.1f]\n", code, getName(), hs);
 		}
 	}
+
+	@Override
+	public String getLine() {
+		Locale us = Locale.US;
+		String out = String.format(us,"%03d;%s;%.1f", code, getName(), hs);
+		return out;
+	}
 	
+	@Override
+	public String getColumns() {
+		// TODO Auto-generated method stub
+		return "#Ma ; Ten mon hoc; he so diem";
+	}
 	
 	
 }
