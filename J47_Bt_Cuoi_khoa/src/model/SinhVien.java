@@ -27,8 +27,12 @@ public class SinhVien implements Data{
 	
 	private void updateCurr(String ma){
 		String numb = ma.replace("SV", "");
-		int n = Integer.parseInt(numb);
-		if(n > currentCode) currentCode = n;
+		try {
+			int n = Integer.parseInt(numb);
+			if(n > currentCode) currentCode = n;
+		} catch (NumberFormatException e) {
+			//e.printStackTrace();
+		}
 	}
 
 	public String getMaSV() {

@@ -32,17 +32,7 @@ import util.Utils;
 public class Main {
 
 	public static void main(String[] args) {
-		if(args.length != 0) {
-			System.out.println(Arrays.toString(args));
-			for (int i = 0; i < args.length; i++) {
-				if(args[i].equals("-en")) {
-					//DataIO.engMode = true;
-					DataIO.setEngMode(true);
-				}
-				if(args[i].equals("-ascii")) DataIO.suportAscii = true;
-			}
-		}
-		
+		loadSetting(args);
 		if(DataIO.suportAscii == false) {
 			System.out.println("\n\n\t\t\t┌──────────────────────────────────────────┐");
 			System.out.println("\t\t\t│          QUAN LY SINH VIEN 1.0.0         │");
@@ -92,6 +82,25 @@ public class Main {
 		if (select1 == 0) {
 			saveAllData(listSv, dsMh, dsDiem);
 		}
+	}
+
+	private static void loadSetting(String[] args) {
+		boolean enMode = false;
+		if(args.length != 0) {
+			System.out.println(Arrays.toString(args));
+			for (int i = 0; i < args.length; i++) {
+				if(args[i].equals("-ascii")) DataIO.suportAscii = true;
+				if(args[i].startsWith("-dir=")) {
+					DataIO.setDataDir(args[i].split("=")[1]);
+					break;
+				}
+				if(args[i].equals("-en")) {
+					enMode = true;
+				}
+			}
+		}
+		DataIO.setEngMode(enMode);
+		DataIO.loadAllData();
 	}
 
 	//TODO III menu tim kiem

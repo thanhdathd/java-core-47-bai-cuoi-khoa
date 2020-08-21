@@ -24,15 +24,17 @@ public class DataIO {
 	static File _sinhvien = null;
 	static File _diem = null;
 	public static boolean engMode = false;
+	private static String name_mh = "monhoc.txt", name_sv = "sinhvien.txt", name_diem ="diem.txt";   
 	
 	public static ArrayList<SinhVien> listSV;
 	public static ArrayList<MonHoc> dsMonHoc;
 	public static ArrayList<Diem> dsDiem;
 	public static boolean suportAscii = false;
-	static {
-		_monhoc = new File("data\\monhoc.txt");
-		_sinhvien = new File("data\\sinhvien.txt");
-		_diem = new File("data\\diem.txt");
+	public static String dataDir = "";
+	public static void loadAllData() {
+		_monhoc = new File(dataDir+"\\"+name_mh);
+		_sinhvien = new File(dataDir+"\\"+name_sv);
+		_diem = new File(dataDir+"\\"+name_diem);
 		listSV = loadSinhVien();
 		dsMonHoc = loadMonHoc();
 		dsDiem = loadDiem();
@@ -75,13 +77,8 @@ public class DataIO {
 		FileReader frd = null;
 		BufferedReader bufR = null;
 		try {
-			if(file.exists()) {
-				frd = new FileReader(file);
-				bufR = new BufferedReader(frd);
-			}else {
-				InputStream in = DataIO.class.getResourceAsStream(file.getName());
-				bufR = new BufferedReader(new InputStreamReader(in));
-			}
+			frd = new FileReader(file);
+			bufR = new BufferedReader(frd);
 			String line;
 			while ((line = bufR.readLine()) != null) {
 				//System.out.println(line);
@@ -107,15 +104,8 @@ public class DataIO {
 		BufferedWriter bufW = null;
 		ArrayList<Data> list = (ArrayList<Data>) ls;
 		try {
-			if(file.exists()) {
-				fw = new FileWriter(file);
-				bufW = new BufferedWriter(fw);
-			}else {
-				Path source = Paths.get(DataIO.class.getResource("/").getPath());
-				Path p = Files.createFile(source, null);
-				fw = new FileWriter(p.toFile());
-				bufW = new BufferedWriter(fw);
-			}
+			fw = new FileWriter(file);
+			bufW = new BufferedWriter(fw);
 			bufW.write(list.get(0).getColumns());
 			bufW.newLine();
 			for (Data data : list) {
@@ -136,10 +126,8 @@ public class DataIO {
 	
 	public static void setEngMode(boolean mode) {
 		engMode = mode;
-		_sinhvien = new File("data\\sinhvien_en.txt");
-		listSV = loadSinhVien();
-		_monhoc = new File("data\\monhoc_en.txt");
-		dsMonHoc = loadMonHoc();
+		name_mh = "monhoc_en.txt";
+		name_sv = "sinhvien_en.txt";
 	}
 
 	
@@ -160,5 +148,9 @@ public class DataIO {
 	private static void saveMonHoc() {
 		saveData(_monhoc, dsMonHoc);
 		
+	}
+
+	public static void setDataDir(String s) {
+		dataDir = s;
 	}
 }

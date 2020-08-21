@@ -1,17 +1,20 @@
 Hướng dẫn chạy thử trong cmd windows
  - Bật cửa sổ cmd
  - chuyển thư mục làm việc đến thư mục chứa file QLSV.jar
- - gõ lệnh: java -jar QLSV.jar
+ - gõ lệnh: java -jar QLSV.jar -dir=C:\data
  - nhấn enter để chạy lệnh
+ 
+ Trong đó: C:\data là thư mục chứa file data
+ các file trong thư mục này lấy từ thư mục data được cho trong file đính kèm
  
  * Đối với các máy chạy HDH cũ hơn win 10
  thêm các tùy chọn -en để tránh lỗi không hiển thị được tiếng việt
  cmd có thể không hỗ trợ hiển thị font Unicode, gõ thêm tùy chọn -ascii để tắt hiển thị các ký tự Unicode
- - gõ lệnh: java -jar QLSV.jar -en -ascii
+ - gõ lệnh: java -jar QLSV.jar -en -ascii -dir=C:\data
  - ấn enter để chạy
  
- ** Nếu muốn chương trình đọc file dữ liệu khác (ngoài các file đã được đóng gói theo file jar) thì cần
- đặt các file này trong thư mục data. thư mục data nằm cùng thư mục với file QLSV.jar
- tên các file phải đặt chính xác: sinhvien.txt, monhoc.txt, diem.txt
- dạng dữ liệu lưu trong file phải giống như các file gốc đã cho. 
+
+ 
+ code tham khảo: 
+ https://github.com/thanhdathd/java-core-47-bai-cuoi-khoa.git
  

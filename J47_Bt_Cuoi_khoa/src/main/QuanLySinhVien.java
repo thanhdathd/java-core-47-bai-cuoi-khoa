@@ -222,6 +222,10 @@ public class QuanLySinhVien {
 		
 		if(target != null) {
 			QuanLyBangDiem.showBangDiemBySV(target, true);
+			do {
+				System.out.println("Nhap ... de quay lai");
+				line = sc.nextLine();
+			}while(!line.equals("..."));
 		}else {
 			System.out.println("Khong tim thay sinh vien ["+line+"]");
 		}
