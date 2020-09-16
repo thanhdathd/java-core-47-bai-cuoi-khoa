@@ -1,4 +1,4 @@
-#Ma - Ho dem - Ten - Ngay sinh - Gioi tinh
+# ma sv; ho dem; ten; ngay sinh; gioi tinh
 SV00001;Vo Ngoc;Dung;01/09/1996;Nam
 SV00002;Hoang Tran Duc;Hanh;27/01/1997;Nu
 SV00003;Ngo Thi Thuy;Trang;20/08/1997;Nu

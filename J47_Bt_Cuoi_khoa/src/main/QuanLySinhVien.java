@@ -285,10 +285,7 @@ public class QuanLySinhVien {
 		for (SinhVien s : listSv) {
 			String name = StringUtils.boDau(s.getFullName()).toLowerCase();
 			String keyword = StringUtils.boDau(line).toLowerCase();
-			if(s.getMaSV().startsWith("SV0013")) {
-				System.out.println("name:"+name);
-				System.out.println(" -> key:"+keyword);
-			}
+			
 			if (name.contains(keyword)) {
 				dsKetQua.add(s);
 			}

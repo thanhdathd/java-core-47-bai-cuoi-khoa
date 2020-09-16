@@ -32,9 +32,9 @@ public class DataIO {
 	public static boolean suportAscii = false;
 	public static String dataDir = "";
 	public static void loadAllData() {
-		_monhoc = new File(dataDir+"\\"+name_mh);
-		_sinhvien = new File(dataDir+"\\"+name_sv);
-		_diem = new File(dataDir+"\\"+name_diem);
+		_monhoc = new File(dataDir+File.separator+name_mh);
+		_sinhvien = new File(dataDir+File.separator+name_sv);
+		_diem = new File(dataDir+File.separator+name_diem);
 		listSV = loadSinhVien();
 		dsMonHoc = loadMonHoc();
 		dsDiem = loadDiem();
